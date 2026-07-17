@@ -1,0 +1,8 @@
+# Antigravity Rules
+
+- Write clean, maintainable code following PSR-12 coding standards with a 4-space indent.
+- The project targets PHP 7.4. All code must be compatible with this version.
+- Use the `App\` namespace for `src/` and `Tests\` for `tests/`.
+- Ensure tools like `phpstan` (level 6) and `psalm` (level 8) pass successfully.
+- Before committing, run `composer phpcs-fixer` to apply auto-fixes for PSR-12.
+- The dev server can be started with `composer start` on port 8013.

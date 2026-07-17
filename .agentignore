@@ -1,0 +1,8 @@
+vendor/
+coverage/
+.git/
+.env
+.env.*
+*.log
+.env.*
+*.log
