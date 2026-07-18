@@ -14,7 +14,8 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": "~7.4|~8.3"
+        "php": "~7.4|~8.3",
+        "juanvladimir13/postgres-database": "^0.1.7"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
@@ -44,7 +45,7 @@
     },
     "scripts": {
         "start": "php7.4 -S localhost:8013 -t ./public",
-        "phpstan": "vendor/bin/phpstan analyse --xdebug -c phpstan.neon",
+        "phpstan": "vendor/bin/phpstan analyse --autoload-file=vendor/autoload.php -c phpstan.neon",
         "psalm": "vendor/bin/psalm src",
         "phpcs": "vendor/bin/phpcs --colors --standard=PSR12 --severity=1 --tab-width=4 --report=summary src",
         "phpcs-detail": "vendor/bin/phpcs --colors --standard=PSR12 --severity=1 --tab-width=4 src",

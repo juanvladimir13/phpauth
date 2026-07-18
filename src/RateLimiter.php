@@ -1,44 +1,30 @@
 <?php
+
 namespace App;
 
-use PDO;
+use App\Models\LoginAttempt;
 
 class RateLimiter
 {
-    private PDO $db;
+    private LoginAttempt $loginAttempt;
     private int $maxAttempts;
-    private int $lockoutTime; // en segundos
+    private int $lockoutTime;
 
-    public function __construct(PDO $db, int $maxAttempts = 5, int $lockoutTime = 900)
+    public function __construct(int $maxAttempts = 5, int $lockoutTime = 900)
     {
-        $this->db = $db;
+        $this->loginAttempt = new LoginAttempt();
         $this->maxAttempts = $maxAttempts;
         $this->lockoutTime = $lockoutTime;
     }
 
     public function recordAttempt(string $username, string $ip, bool $success): void
     {
-        $stmt = $this->db->prepare("INSERT INTO login_attempts (username, ip_address, successful) VALUES (:username, :ip, :success)");
-        $stmt->bindValue(':username', $username);
-        $stmt->bindValue(':ip', $ip);
-        $stmt->bindValue(':success', $success, PDO::PARAM_BOOL);
-        $stmt->execute();
+        $this->loginAttempt->record($username, $ip, $success);
     }
 
     public function isLockedOut(string $ip): bool
     {
-        // Usando sintaxis de intervalo de Postgres
-        $stmt = $this->db->prepare("
-            SELECT COUNT(*) FROM login_attempts 
-            WHERE ip_address = :ip 
-            AND successful = FALSE 
-            AND attempt_time > (CURRENT_TIMESTAMP - ( :lockout || ' seconds')::interval )
-        ");
-        $stmt->bindValue(':ip', $ip);
-        $stmt->bindValue(':lockout', $this->lockoutTime, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        $attempts = $stmt->fetchColumn();
+        $attempts = $this->loginAttempt->countFailedByIp($ip, $this->lockoutTime);
         return $attempts >= $this->maxAttempts;
     }
 }

@@ -25,21 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($password) < 8) {
         $error = "La contraseña debe tener al menos 8 caracteres.";
     } else {
-        try {
-            if ($auth->register($username, $email, $password, $roleId)) {
+        if ($auth->register($username, $email, $password, $roleId)) {
                 $success = "Usuario registrado exitosamente. Ahora puedes iniciar sesión.";
             } else {
                 $error = "Ocurrió un error al registrar el usuario.";
             }
-        } catch (\PDOException $e) {
-            // Manejamos violación de constraints UNIQUE para pgsql: 23505
-            if ($e->getCode() == '23505') {
-                $error = "El usuario o email ya se encuentra registrado.";
-            } else {
-                error_log("DB Error en registro: " . $e->getMessage());
-                $error = "Ocurrió un error inesperado en el servidor.";
-            }
-        }
     }
 }
 ?>
