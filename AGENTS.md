@@ -18,8 +18,22 @@
 - `composer.lock` is gitignored (lock intentionally excluded)
 - Platform targets PHP 7.4 (`composer.json config.platform.php`)
 
+## Project structure
+
+- `src/` — 8 files:
+  - `Auth.php` — Login, logout, register with `password_hash` (ARGON2ID)
+  - `Csrf.php` — CSRF token generation (`random_bytes`) and verification (`hash_equals`)
+  - `Guard.php` — Middleware: `requireLogin`, `requireRole`, `requireCan` (RBAC)
+  - `RateLimiter.php` — Rate limiting by IP (5 attempts / 15 min lockout)
+  - `Models/User.php`, `Role.php`, `Permission.php`, `LoginAttempt.php`
+- `config/` — `database.php` (PG connection check), `session.php` (httponly, samesite=Lax, timeout, regeneration)
+- `public/` — 5 entry points: `init.php` (bootstrap), `login.php`, `register.php`, `logout.php`, `dashboard.php`
+- `sql/` — `schema.sql` (5 tables: roles, permissions, role_permissions, users, login_attempts) + `seed.sql` (admin/cliente/soporte roles, view_dashboard/manage_users/manage_roles permissions)
+- `tests/` — Empty (no phpunit installed)
+
 ## Notes
 
 - No test framework installed yet (phpunit not in require-dev)
 - No CI workflows present
-- `src/` and `tests/` directories are empty — this is a fresh skeleton
+- External dependency: `juanvladimir13/postgres-database ^0.1.7`
+- Static analysis: phpstan level 6 (src + tests), psalm level 8 (src only)

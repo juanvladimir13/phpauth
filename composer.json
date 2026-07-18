@@ -1,6 +1,6 @@
 {
-    "name": "juanvladimir13/package-skeleton",
-    "description": "PHP package skeleton",
+    "name": "juanvladimir13/auth",
+    "description": "PHP authentication & authorization system with RBAC, CSRF, rate limiting, and PostgreSQL",
     "type": "project",
     "license": "MIT",
     "homepage": "https://juanvladimir13.web.app/",
