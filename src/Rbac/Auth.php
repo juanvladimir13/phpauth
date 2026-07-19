@@ -6,7 +6,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
 
-class YamlSeeder
+class Auth
 {
     private Role $roleModel;
     private Permission $permModel;
@@ -19,8 +19,9 @@ class YamlSeeder
         $this->userModel = new User();
     }
 
-    public function seed(string $yamlFilePath): void
+    public function seed(): void
     {
+        $yamlFilePath = '../auth/rbac.yml';
         if (!file_exists($yamlFilePath)) {
             throw new \InvalidArgumentException("El archivo YAML no existe: {$yamlFilePath}");
         }

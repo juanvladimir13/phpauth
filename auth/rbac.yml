@@ -1,0 +1,46 @@
+permissions:
+  - create_post
+  - edit_post
+  - delete_post
+  - publish_post
+  - view_reports
+  - export_data
+  - view_dashboard
+  - manage_users
+  - manage_roles
+
+roles:
+  editor:
+    - create_post
+    - edit_post
+    - publish_post
+    - view_dashboard
+  author:
+    - create_post
+    - edit_post
+    - view_dashboard
+  analyst:
+    - view_reports
+    - export_data
+  admin:
+    - view_dashboard
+    - manage_users
+    - manage_roles
+
+users:
+  - username: juan_admin
+    email: juan_admin@example.com
+    password: password123
+    role: admin
+  - username: ana_editor
+    email: ana_editor@example.com
+    password: password123
+    role: editor
+  - username: luis_author
+    email: luis_author@example.com
+    password: password123
+    role: author
+  - username: carlos_analyst
+    email: carlos_analyst@example.com
+    password: password123
+    role: analyst
