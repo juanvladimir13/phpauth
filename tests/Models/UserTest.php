@@ -74,4 +74,16 @@ class UserTest extends TestCase
 
         $this->assertSame(0, $result);
     }
+
+    public function testUpdateUserReturnsVoidWhenNoDatabase(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->user->updateUser(1, ['username' => 'test']);
+    }
+
+    public function testUpdatePasswordReturnsVoidWhenNoDatabase(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->user->updatePassword(1, 'newhash');
+    }
 }
