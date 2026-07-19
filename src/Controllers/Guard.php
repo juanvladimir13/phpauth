@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace PhpAuth\Controllers;
 
-use App\Models\User;
+use PhpAuth\Models\User;
 
 class Guard
 {

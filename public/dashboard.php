@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-use App\AuthRbac;
+use PhpAuth\AuthRbac;
 
 // Protegemos la página: Requiere estar logueado
 $manager = AuthRbac::getInstance();

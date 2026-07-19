@@ -12,9 +12,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/session.php';
 require __DIR__ . '/../config/database.php';
 
-use App\Models\Role;
-use App\Models\Permission;
-use App\Models\User;
+use PhpAuth\Models\Role;
+use PhpAuth\Models\Permission;
+use PhpAuth\Models\User;
 
 $roleModel = new Role();
 $permModel = new Permission();

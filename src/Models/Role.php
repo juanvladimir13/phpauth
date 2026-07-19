@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace PhpAuth\Models;
 
 use PGDatabase\Models\Model;
 use PGDatabase\Postgres;

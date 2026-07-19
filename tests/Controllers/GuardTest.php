@@ -2,8 +2,8 @@
 
 namespace Tests\Controllers;
 
-use App\Controllers\Guard;
-use App\Models\User;
+use PhpAuth\Controllers\Guard;
+use PhpAuth\Models\User;
 use PHPUnit\Framework\TestCase;
 
 class GuardTest extends TestCase

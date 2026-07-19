@@ -2,7 +2,7 @@
 
 namespace Tests\Controllers;
 
-use App\Controllers\Csrf;
+use PhpAuth\Controllers\Csrf;
 use PHPUnit\Framework\TestCase;
 
 class CsrfTest extends TestCase

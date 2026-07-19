@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace PhpAuth\Controllers;
 
 class Csrf
 {

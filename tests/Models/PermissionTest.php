@@ -2,7 +2,7 @@
 
 namespace Tests\Models;
 
-use App\Models\Permission;
+use PhpAuth\Models\Permission;
 use PHPUnit\Framework\TestCase;
 
 class PermissionTest extends TestCase

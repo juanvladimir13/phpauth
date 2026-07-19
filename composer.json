@@ -28,10 +28,9 @@
     "repositories": [],
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "PhpAuth\\": "src/"
         },
-        "files": [
-        ]
+        "files": []
     },
     "autoload-dev": {
         "psr-4": {

@@ -14,7 +14,7 @@
 
 ## Conventions
 
-- Namespace `App\` maps to `src/`, `Tests\` maps to `tests/`
+- Namespace `PhpAuth\` maps to `src/`, `Tests\` maps to `tests/`
 - EditorConfig: 4-space indent, LF, 120-char line limit (2-space for JS/HTML)
 - `composer.lock` is gitignored (lock intentionally excluded)
 - Platform targets PHP 7.4 (`composer.json config.platform.php`)

@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace PhpAuth;
 
-use App\Controllers\Auth;
-use App\Controllers\Csrf;
-use App\Controllers\Guard;
-use App\Controllers\RateLimiter;
-use App\Rbac\AuthManager;
+use PhpAuth\Controllers\Auth;
+use PhpAuth\Controllers\Csrf;
+use PhpAuth\Controllers\Guard;
+use PhpAuth\Controllers\RateLimiter;
+use PhpAuth\Rbac\AuthManager;
 
 /**
  * AuthManager — Singleton que centraliza el acceso a todos los

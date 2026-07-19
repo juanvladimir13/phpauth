@@ -2,8 +2,8 @@
 
 namespace Tests\Controllers;
 
-use App\Controllers\Auth;
-use App\Models\User;
+use PhpAuth\Controllers\Auth;
+use PhpAuth\Models\User;
 use PHPUnit\Framework\TestCase;
 
 class AuthTest extends TestCase

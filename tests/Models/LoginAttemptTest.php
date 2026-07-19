@@ -2,7 +2,7 @@
 
 namespace Tests\Models;
 
-use App\Models\LoginAttempt;
+use PhpAuth\Models\LoginAttempt;
 use PHPUnit\Framework\TestCase;
 
 class LoginAttemptTest extends TestCase

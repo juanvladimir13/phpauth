@@ -2,7 +2,7 @@
 
 namespace Tests\Models;
 
-use App\Models\Role;
+use PhpAuth\Models\Role;
 use PHPUnit\Framework\TestCase;
 
 class RoleTest extends TestCase

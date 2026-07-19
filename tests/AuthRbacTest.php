@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use App\AuthRbac;
-use App\Controllers\Auth;
-use App\Controllers\Csrf;
-use App\Controllers\Guard;
-use App\Controllers\RateLimiter;
-use App\Rbac\AuthManager;
+use PhpAuth\AuthRbac;
+use PhpAuth\Controllers\Auth;
+use PhpAuth\Controllers\Csrf;
+use PhpAuth\Controllers\Guard;
+use PhpAuth\Controllers\RateLimiter;
+use PhpAuth\Rbac\AuthManager;
 use PHPUnit\Framework\TestCase;
 
 class AuthRbacTest extends TestCase

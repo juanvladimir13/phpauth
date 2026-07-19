@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace PhpAuth\Controllers;
 
-use App\Models\LoginAttempt;
+use PhpAuth\Models\LoginAttempt;
 
 class RateLimiter
 {

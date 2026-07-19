@@ -2,10 +2,10 @@
 
 namespace Tests\Rbac;
 
-use App\Models\Permission;
-use App\Models\Role;
-use App\Models\User;
-use App\Rbac\AuthManager;
+use PhpAuth\Models\Permission;
+use PhpAuth\Models\Role;
+use PhpAuth\Models\User;
+use PhpAuth\Rbac\AuthManager;
 use PHPUnit\Framework\TestCase;
 
 class AuthManagerTest extends TestCase

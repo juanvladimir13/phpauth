@@ -2,8 +2,8 @@
 
 namespace Tests\Controllers;
 
-use App\Controllers\RateLimiter;
-use App\Models\LoginAttempt;
+use PhpAuth\Controllers\RateLimiter;
+use PhpAuth\Models\LoginAttempt;
 use PHPUnit\Framework\TestCase;
 
 class RateLimiterTest extends TestCase

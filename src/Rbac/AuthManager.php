@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Rbac;
+namespace PhpAuth\Rbac;
 
-use App\Models\Role;
-use App\Models\Permission;
-use App\Models\User;
+use PhpAuth\Models\Role;
+use PhpAuth\Models\Permission;
+use PhpAuth\Models\User;
 
 class AuthManager
 {

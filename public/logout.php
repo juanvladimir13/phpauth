@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-use App\AuthRbac;
+use PhpAuth\AuthRbac;
 
 $manager = AuthRbac::getInstance();
 $manager->auth()->logout();

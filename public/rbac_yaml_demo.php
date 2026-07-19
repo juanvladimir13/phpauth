@@ -10,9 +10,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/session.php';
 require __DIR__ . '/../config/database.php';
 
-use App\AuthRbac;
-use App\Models\User;
-use App\Models\Role;
+use PhpAuth\AuthRbac;
+use PhpAuth\Models\User;
+use PhpAuth\Models\Role;
 
 echo "=== RBAC YAML Demo: Roles y Permisos Granulares ===\n\n";
 
