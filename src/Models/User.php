@@ -65,4 +65,17 @@ class User extends Model
             'role_id' => $roleId
         ]);
     }
+
+    public function updateUser(int $userId, array $data): bool
+    {
+        return Postgres::update($this->TABLE_NAME, $data, ['id' => $userId]);
+    }
+
+    public static function passwordHashVerify(string $password, string $passwordHash):bool {
+        return password_verify($password, $passwordHash);
+    }
+
+    public static function passwordToHash(string $password): string {
+        return password_hash($password,PASSWORD_ARGON2ID);
+    }
 }

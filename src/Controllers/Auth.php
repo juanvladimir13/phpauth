@@ -17,7 +17,7 @@ class Auth
     {
         $user = $this->user->findByUsername($username);
 
-        if ($user && password_verify($password, $user['password_hash'])) {
+        if ($user && User::passwordHashVerify($password, $user['password_hash'])) {
             session_regenerate_id(true);
 
             $_SESSION['user_id'] = $user['id'];
@@ -50,8 +50,30 @@ class Auth
 
     public function register(string $username, string $email, string $password, int $roleId): bool
     {
-        $hash = password_hash($password, PASSWORD_ARGON2ID);
-
+        $hash = User::passwordToHash($password);
         return $this->user->createUser($username, $email, $hash, $roleId) !== 0;
+    }
+
+    public function updateUser(int $userId, array $data): bool
+    {
+        $user = $this->user->find($userId);
+        if ($user === null) {
+            return false;
+        }
+
+        $user->setRequest($data);
+        return $this->user->update($userId, $user->getData());
+    }
+
+    public function updatePassword(int $userId, string $passwordOld, string $passwordNew): bool
+    {
+        $user = $this->user->find($userId);
+
+        if ($user === null || !User::passwordHashVerify($passwordOld, $user['password_hash'])) {
+            return false;
+        }
+
+        $newHash = User::passwordToHash($passwordNew);
+        return $this->user->update($userId, ['password_hash' => $newHash]);
     }
 }

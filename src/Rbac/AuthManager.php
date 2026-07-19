@@ -36,7 +36,7 @@ class AuthManager
 
     public function seed(): void
     {
-        $yamlFilePath = __DIR__ . '/../auth/rbac.yml';
+        $yamlFilePath = './../auth/rbac.yml';
         if (!file_exists($yamlFilePath)) {
             throw new \InvalidArgumentException("El archivo YAML no existe: {$yamlFilePath}");
         }

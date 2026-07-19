@@ -11,9 +11,10 @@ CREATE TABLE permissions (
 );
 
 CREATE TABLE role_permissions (
+    id SERIAL PRIMARY KEY,
     role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE,
     permission_id INTEGER REFERENCES permissions(id) ON DELETE CASCADE,
-    PRIMARY KEY (role_id, permission_id)
+    UNIQUE (role_id, permission_id)
 );
 
 CREATE TABLE users (
@@ -21,9 +22,14 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
+    celular      VARCHAR(15),
+    activo        BOOLEAN      NOT NULL DEFAULT TRUE,
     role_id INTEGER REFERENCES roles(id) ON DELETE SET NULL,
+    phone_verified BOOLEAN     NOT NULL DEFAULT FALSE,
+    editable BOOLEAN     NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_access_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE login_attempts (
@@ -33,4 +39,3 @@ CREATE TABLE login_attempts (
     attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     successful BOOLEAN DEFAULT FALSE
 );
-
