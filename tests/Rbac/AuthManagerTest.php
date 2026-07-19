@@ -63,7 +63,7 @@ class AuthManagerTest extends TestCase
         $this->expectExceptionMessage('No se pudo parsear el archivo YAML o el formato es incorrecto.');
 
         try {
-            $this->manager->seed($tempFile);
+            @$this->manager->seed($tempFile);
         } finally {
             unlink($tempFile);
         }

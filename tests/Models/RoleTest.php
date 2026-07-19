@@ -20,7 +20,7 @@ class RoleTest extends TestCase
         $reflection = new \ReflectionProperty(Role::class, 'TABLE_NAME');
         $reflection->setAccessible(true);
 
-        $this->assertSame('public.roles', $reflection->getValue($this->role));
+        $this->assertSame('phpauth.roles', $reflection->getValue($this->role));
     }
 
     public function testSetRequestStoresValues(): void

@@ -1,13 +1,13 @@
 # Antigravity Rules
 
 - Write clean, maintainable code following PSR-12 coding standards with a 4-space indent.
-- The project targets PHP 7.4. All code must be compatible with this version.
-- Use the `App\` namespace for `src/` and `Tests\` for `tests/`.
+- The project targets PHP 8.4. All code must be compatible with this version.
+- Use the `PhpAuth\` namespace for `src/` and `Tests\` for `tests/`.
 - Ensure tools like `phpstan` (level 6) and `psalm` (level 8) pass successfully.
 - Before committing, run `composer phpcs-fixer` to apply auto-fixes for PSR-12.
 - The dev server can be started with `composer start` on port 8013.
-- `config/session.php` handles session security (httponly, samesite=Lax, timeout, regeneration).
-- `public/init.php` is the bootstrap entry point; use `$auth`, `$guard`, `$rateLimiter` globals.
-- Use `Csrf::generateToken()` / `Csrf::verifyToken()` in forms/endpoints.
-- SQL schema is in `sql/schema.sql`; seed data in `sql/seed.sql`.
+- `auth/session.php` handles session security (httponly, samesite=Lax, timeout, regeneration).
+- Use `\PhpAuth\AuthRbac::getInstance()` to access the facade for `$auth`, `$guard`, and `$rateLimiter`.
+- Use `\PhpAuth\AuthRbac::csrfToken()` / `\PhpAuth\AuthRbac::csrfVerify()` in forms/endpoints.
+- SQL schema is in `auth/schema.sql`; seed data in `auth/seed.sql`.
 - External dependency: `juanvladimir13/postgres-database` for PDO PostgreSQL queries.

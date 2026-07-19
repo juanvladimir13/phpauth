@@ -20,7 +20,7 @@ class LoginAttemptTest extends TestCase
         $reflection = new \ReflectionProperty(LoginAttempt::class, 'TABLE_NAME');
         $reflection->setAccessible(true);
 
-        $this->assertSame('public.login_attempts', $reflection->getValue($this->loginAttempt));
+        $this->assertSame('phpauth.login_attempts', $reflection->getValue($this->loginAttempt));
     }
 
     public function testSetRequestStoresValues(): void

@@ -25,7 +25,7 @@ Un sistema completo de control de acceso seguro para PHP vanilla (sin frameworks
    - Crea tu base de datos (por ejemplo, `auth_db`).
    - Ejecuta el script SQL para inicializar el esquema:
      ```bash
-     psql -U postgres -d auth_db -f sql/schema.sql
+     psql -U postgres -d auth_db -f auth/schema.sql
      ```
    *(Nota: `schema.sql` ya incluye los roles `admin`, `cliente` y `soporte`, así como el permiso `view_dashboard`)*
 
@@ -49,17 +49,21 @@ Un sistema completo de control de acceso seguro para PHP vanilla (sin frameworks
 3. Puedes entrar a la base de datos y ascender a tu usuario cambiando el `role_id = 1` (admin) o `role_id = 3` (soporte).
 4. Vuelve a iniciar sesión; ahora el Dashboard cargará sin problema.
 
-## Uso del Guard
-En cualquier archivo (ya sea vista o endpoint API), solo requieres `init.php` y hacer uso del `$guard`:
+En cualquier archivo (ya sea vista o endpoint API), solo requieres el autoload de Composer, `session.php`, y hacer uso de `AuthRbac`:
 ```php
-require_once __DIR__ . '/init.php';
+require '../vendor/autoload.php';
+require_once __DIR__ . '/../auth/session.php';
+
+use PhpAuth\AuthRbac;
+
+$manager = AuthRbac::getInstance();
 
 // Protege que el usuario esté logueado obligatoriamente
-$guard->requireLogin(); 
+$manager->guard()->requireLogin(); 
 
 // (Opcional) Protege por rol
-$guard->requireRole('admin'); 
+$manager->guard()->requireRole('admin'); 
 
 // (Opcional) Protege por permiso
-$guard->requireCan('manage_users'); 
+$manager->guard()->requireCan('manage_users'); 
 ```

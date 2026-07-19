@@ -20,7 +20,7 @@ class UserTest extends TestCase
         $reflection = new \ReflectionProperty(User::class, 'TABLE_NAME');
         $reflection->setAccessible(true);
 
-        $this->assertSame('public.users', $reflection->getValue($this->user));
+        $this->assertSame('phpauth.users', $reflection->getValue($this->user));
     }
 
     public function testSetRequestStoresValues(): void

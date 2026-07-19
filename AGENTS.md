@@ -2,15 +2,15 @@
 
 ## Analysis & test tools
 
-- phpstan: `composer phpstan` — level 6, PHP 7.4 platform, scans `src` + `tests`
-- psalm: `composer psalm` — level 8, PHP 7.4, scans `src` only
+- phpstan: `composer phpstan` — level 6, PHP 8.4 platform, scans `src` + `tests`
+- psalm: `composer psalm` — level 8, PHP 8.4, scans `src` only
 - phpcs: `composer phpcs` (summary) / `composer phpcs-detail` (full) — PSR12, 4-space indent
 - php-cs-fixer: `composer phpcs-fixer` — PSR12 auto-fix on `src`
-- phpunit: `composer test` — runs 76 unit tests
+- phpunit: `composer test` — runs 36 unit tests
 
 ## Dev server
 
-`composer start` — serves `./public` on port 8013 via PHP 7.4 built-in server.
+`composer start` — serves `./public` on port 8013 via PHP 8.4 built-in server.
 
 ## Conventions
 
@@ -30,8 +30,9 @@
   - `Models/User.php`, `Role.php`, `Permission.php`, `LoginAttempt.php`
   - `Rbac/AuthManager.php` — YAML-based RBAC seeder (roles, permissions, users)
 - `auth/` — `session.php` (httponly, samesite=Lax, timeout, regeneration), `schema.sql`, `seed.sql`, `rbac.yml`
-- `public/` — 6 entry points: `login.php`, `register.php`, `logout.php`, `dashboard.php`, `rbac_demo.php`, `rbac_yaml_demo.php`
-- `tests/` — 76 unit tests (phpunit ^9.5):
+- `public/` — 4 entry points: `login.php`, `register.php`, `logout.php`, `dashboard.php`
+- `scripts/` — 2 entry points (CLI): `rbac_demo.php`, `rbac_yaml_demo.php`
+- `tests/` — 36 unit tests (phpunit ^9.5):
   - `AuthRbacTest.php` — singleton, lazy loading, delegation
   - `Controllers/AuthTest.php`, `CsrfTest.php`, `GuardTest.php`, `RateLimiterTest.php`
   - `Models/UserTest.php`, `RoleTest.php`, `PermissionTest.php`, `LoginAttemptTest.php`

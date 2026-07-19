@@ -20,7 +20,7 @@ class PermissionTest extends TestCase
         $reflection = new \ReflectionProperty(Permission::class, 'TABLE_NAME');
         $reflection->setAccessible(true);
 
-        $this->assertSame('public.permissions', $reflection->getValue($this->permission));
+        $this->assertSame('phpauth.permissions', $reflection->getValue($this->permission));
     }
 
     public function testSetRequestStoresValues(): void
