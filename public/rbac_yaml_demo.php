@@ -12,24 +12,23 @@ require __DIR__ . '/../config/database.php';
 
 use App\Models\User;
 use App\Models\Role;
-use App\Rbac\Auth;
+use App\Rbac\AuthManager;
 
 echo "=== RBAC YAML Demo: Roles y Permisos Granulares ===\n\n";
 
 try {
-    $seeder = new Auth();
+    $seeder = new AuthManager();
     $seeder->seed();
 
     echo "--- 5. Matriz de permisos por usuario ---\n\n";
 
     $userModel = new User();
     $roleModel = new Role();
-    
+
     // Obtener los usuarios de config para imprimir matriz
     $config = yaml_parse_file(__DIR__ . '../auth/rbac.yml');
-    
     $allPermissions = $config['permissions'] ?? [];
-    
+
     printf("%-20s %-12s", "Usuario", "Rol");
     foreach ($allPermissions as $p) {
         printf(" %-18s", $p);

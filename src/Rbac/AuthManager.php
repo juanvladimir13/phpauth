@@ -6,7 +6,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\User;
 
-class Auth
+class AuthManager
 {
     private Role $roleModel;
     private Permission $permModel;
@@ -19,9 +19,24 @@ class Auth
         $this->userModel = new User();
     }
 
+    public function getRoleModel(): Role
+    {
+        return $this->roleModel;
+    }
+
+    public function getPermModel(): Permission
+    {
+        return $this->permModel;
+    }
+
+    public function getUserModel(): User
+    {
+        return $this->userModel;
+    }
+
     public function seed(): void
     {
-        $yamlFilePath = '../auth/rbac.yml';
+        $yamlFilePath = __DIR__ . '/../auth/rbac.yml';
         if (!file_exists($yamlFilePath)) {
             throw new \InvalidArgumentException("El archivo YAML no existe: {$yamlFilePath}");
         }
@@ -107,7 +122,7 @@ class Auth
             }
         }
         echo "\n";
-        
+
         return $roleIds;
     }
 

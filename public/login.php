@@ -1,8 +1,13 @@
 <?php
-require_once __DIR__ . '/init.php';
 
-use App\Csrf;
+require '../vendor/autoload.php';
 
+use App\Controllers\Auth;
+use App\Controllers\Csrf;
+use App\Controllers\RateLimiter;
+
+$rateLimiter = new RateLimiter();
+$auth = new Auth();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -48,7 +53,9 @@ if (str_contains($headers['Accept'] ?? '', 'application/json') && $error) {
 </head>
 <body>
     <h2>Iniciar Sesión</h2>
-    <?php if ($error): ?><p style="color:red;"><?= htmlspecialchars($error) ?></p><?php endif; ?>
+    <?php if ($error): ?><p style="color:red;">
+        <?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
     
     <form method="POST" action="login.php">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(Csrf::generateToken()) ?>">

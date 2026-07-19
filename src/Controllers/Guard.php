@@ -13,7 +13,7 @@ class Guard
         $this->user = new User();
     }
 
-    public function requireLogin(): void
+    public function requireLogin(string $redirectUrl = '/login'): void
     {
         if (empty($_SESSION['user_id'])) {
             if ($this->isApiRequest()) {
@@ -21,14 +21,14 @@ class Guard
                 echo json_encode(['error' => 'No autorizado']);
                 exit;
             }
-            header('Location: /login.php');
+            header("Location: {$redirectUrl}");
             exit;
         }
     }
 
-    public function requireRole(string $role): void
+    public function requireRole(string $role, string $redirectUrl = '/'): void
     {
-        $this->requireLogin();
+        $this->requireLogin($redirectUrl);
 
         if (($_SESSION['role'] ?? '') !== $role) {
             http_response_code(403);
@@ -41,9 +41,9 @@ class Guard
         }
     }
 
-    public function requireCan(string $permission): void
+    public function requireCan(string $permission, string $redirectUrl = '/'): void
     {
-        $this->requireLogin();
+        $this->requireLogin($redirectUrl);
 
         if (!$this->user->hasPermission((int)$_SESSION['user_id'], $permission)) {
             http_response_code(403);

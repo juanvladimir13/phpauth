@@ -1,8 +1,11 @@
 <?php
-require_once __DIR__ . '/init.php';
 
-use App\Csrf;
+require '../vendor/autoload.php';
 
+use App\Controllers\Auth;
+use App\Controllers\Csrf;
+
+$auth = new Auth();
 $error = '';
 $success = '';
 

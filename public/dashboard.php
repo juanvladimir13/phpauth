@@ -1,7 +1,10 @@
 <?php
-require_once __DIR__ . '/init.php';
+
+require '../vendor/autoload.php';
+use App\Controllers\Guard;
 
 // Protegemos la página: Requiere estar logueado
+$guard = new Guard();
 $guard->requireLogin();
 
 // Puedes descomentar la siguiente línea para requerir un rol específico

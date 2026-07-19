@@ -31,7 +31,7 @@ class LoginAttempt extends Model
     public function countFailedByIp(string $ip, int $lockoutSeconds): int
     {
         $rows = Postgres::fetchAllParams(
-            "SELECT COUNT(*) as cnt FROM login_attempts
+            "SELECT COUNT(*) as cnt FROM public.login_attempts
              WHERE ip_address = $1
              AND successful = FALSE
              AND attempt_time > (CURRENT_TIMESTAMP - ($2 || ' seconds')::interval)",
