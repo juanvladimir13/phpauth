@@ -1,12 +1,12 @@
 parameters:
-  phpVersion: 80300
+  phpVersion: 80400
   level: 6
   paths:
     - src
     - tests
   tmpDir: tmp
   scanDirectories:
-    - vendor/juanvladimir13/postgres-database/src
+    - vendor/juanvladimir13/phpauth/src
   fileExtensions:
     - php
     - module
