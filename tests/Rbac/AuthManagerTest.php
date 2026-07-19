@@ -1,0 +1,74 @@
+<?php
+
+namespace Tests\Rbac;
+
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
+use App\Rbac\AuthManager;
+use PHPUnit\Framework\TestCase;
+
+class AuthManagerTest extends TestCase
+{
+    private AuthManager $manager;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->manager = new AuthManager();
+    }
+
+    public function testGetRoleModelReturnsRoleInstance(): void
+    {
+        $roleMock = $this->createMock(Role::class);
+        $this->setModelMock('roleModel', $roleMock);
+
+        $this->assertSame($roleMock, $this->manager->getRoleModel());
+    }
+
+    public function testGetPermModelReturnsPermissionInstance(): void
+    {
+        $permMock = $this->createMock(Permission::class);
+        $this->setModelMock('permModel', $permMock);
+
+        $this->assertSame($permMock, $this->manager->getPermModel());
+    }
+
+    public function testGetUserModelReturnsUserInstance(): void
+    {
+        $userMock = $this->createMock(User::class);
+        $this->setModelMock('userModel', $userMock);
+
+        $this->assertSame($userMock, $this->manager->getUserModel());
+    }
+
+    public function testSeedThrowsExceptionWhenYamlFileNotFound(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('El archivo YAML no existe');
+
+        $this->manager->seed();
+    }
+
+    public function testGetRoleModelReturnsRoleByDefault(): void
+    {
+        $this->assertInstanceOf(Role::class, $this->manager->getRoleModel());
+    }
+
+    public function testGetPermModelReturnsPermissionByDefault(): void
+    {
+        $this->assertInstanceOf(Permission::class, $this->manager->getPermModel());
+    }
+
+    public function testGetUserModelReturnsUserByDefault(): void
+    {
+        $this->assertInstanceOf(User::class, $this->manager->getUserModel());
+    }
+
+    private function setModelMock(string $property, object $mock): void
+    {
+        $reflection = new \ReflectionProperty(AuthManager::class, $property);
+        $reflection->setAccessible(true);
+        $reflection->setValue($this->manager, $mock);
+    }
+}
