@@ -128,6 +128,90 @@ class AuthTest extends TestCase
         $this->assertFalse($result);
     }
 
+    public function testUpdateUserReturnsFalseWhenDataIsEmpty(): void
+    {
+        $result = $this->auth->updateUser(1, ['invalid_field' => 'val']);
+        $this->assertFalse($result);
+    }
+
+    public function testUpdateUserReturnsFalseWhenUserNotFound(): void
+    {
+        $userMock = $this->createMock(User::class);
+        $userMock->expects($this->once())
+            ->method('find')
+            ->with(1)
+            ->willReturn([]);
+
+        $this->setUserMock($userMock);
+
+        $result = $this->auth->updateUser(1, ['username' => 'newname']);
+        $this->assertFalse($result);
+    }
+
+    public function testUpdateUserReturnsTrueWhenUserUpdated(): void
+    {
+        $userMock = $this->createMock(User::class);
+        $userMock->expects($this->once())
+            ->method('find')
+            ->with(1)
+            ->willReturn(['id' => 1, 'username' => 'oldname']);
+        $userMock->expects($this->once())
+            ->method('updateUser')
+            ->with(1, ['username' => 'newname']);
+
+        $this->setUserMock($userMock);
+
+        $result = $this->auth->updateUser(1, ['username' => 'newname']);
+        $this->assertTrue($result);
+    }
+
+    public function testUpdatePasswordReturnsFalseWhenUserNotFound(): void
+    {
+        $userMock = $this->createMock(User::class);
+        $userMock->expects($this->once())
+            ->method('find')
+            ->with(1)
+            ->willReturn([]);
+
+        $this->setUserMock($userMock);
+
+        $result = $this->auth->updatePassword(1, 'old', 'new');
+        $this->assertFalse($result);
+    }
+
+    public function testUpdatePasswordReturnsFalseWhenOldPasswordIncorrect(): void
+    {
+        $userMock = $this->createMock(User::class);
+        $userMock->expects($this->once())
+            ->method('find')
+            ->with(1)
+            ->willReturn(['id' => 1, 'password_hash' => password_hash('correct', PASSWORD_ARGON2ID)]);
+
+        $this->setUserMock($userMock);
+
+        $result = $this->auth->updatePassword(1, 'wrong', 'new');
+        $this->assertFalse($result);
+    }
+
+    public function testUpdatePasswordReturnsTrueWhenPasswordUpdated(): void
+    {
+        $userMock = $this->createMock(User::class);
+        $userMock->expects($this->once())
+            ->method('find')
+            ->with(1)
+            ->willReturn(['id' => 1, 'password_hash' => password_hash('old', PASSWORD_ARGON2ID)]);
+        $userMock->expects($this->once())
+            ->method('updatePassword')
+            ->with($this->equalTo(1), $this->callback(function ($hash) {
+                return password_verify('new', $hash);
+            }));
+
+        $this->setUserMock($userMock);
+
+        $result = $this->auth->updatePassword(1, 'old', 'new');
+        $this->assertTrue($result);
+    }
+
     private function setUserMock(User $mock): void
     {
         $reflection = new \ReflectionProperty(Auth::class, 'user');

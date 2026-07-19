@@ -34,7 +34,7 @@ class AuthManager
         return $this->userModel;
     }
 
-    public function seed(string $yamlFilePath='./../auth/rbac.yml'): void
+    public function seed(string $yamlFilePath = './../auth/rbac.yml'): void
     {
         if (!file_exists($yamlFilePath)) {
             throw new \InvalidArgumentException("El archivo YAML no existe: {$yamlFilePath}");

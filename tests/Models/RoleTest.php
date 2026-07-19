@@ -64,4 +64,10 @@ class RoleTest extends TestCase
 
         $this->assertSame([], $result);
     }
+
+    public function testAssignPermissionReturnsVoidWhenNoDatabase(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->role->assignPermission(1, 1);
+    }
 }

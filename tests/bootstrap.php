@@ -19,7 +19,10 @@ set_error_handler(function ($severity, $message, $file, $line) {
 }, E_WARNING);
 
 if (!function_exists('getallheaders')) {
-    function getallheaders()
+    /**
+     * @return array<string, string>
+     */
+    function getallheaders(): array
     {
         return [];
     }

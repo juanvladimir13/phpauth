@@ -49,4 +49,14 @@ class PermissionTest extends TestCase
 
         $this->assertSame(0, $result);
     }
+
+    public function testGetDataReturnsStoredValues(): void
+    {
+        $data = ['name' => 'view_dashboard'];
+        $this->permission->setRequest($data);
+
+        $result = $this->permission->getData();
+
+        $this->assertSame('view_dashboard', $result['name']);
+    }
 }

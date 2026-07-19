@@ -86,4 +86,22 @@ class UserTest extends TestCase
         $this->expectNotToPerformAssertions();
         $this->user->updatePassword(1, 'newhash');
     }
+
+    public function testPasswordToHashReturnsValidArgon2idHash(): void
+    {
+        $hash = User::passwordToHash('secret');
+        $this->assertStringStartsWith('$argon2id$', $hash);
+    }
+
+    public function testPasswordHashVerifyReturnsTrueForValidPassword(): void
+    {
+        $hash = User::passwordToHash('secret');
+        $this->assertTrue(User::passwordHashVerify('secret', $hash));
+    }
+
+    public function testPasswordHashVerifyReturnsFalseForInvalidPassword(): void
+    {
+        $hash = User::passwordToHash('secret');
+        $this->assertFalse(User::passwordHashVerify('wrong', $hash));
+    }
 }

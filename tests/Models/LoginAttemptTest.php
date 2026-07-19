@@ -42,4 +42,27 @@ class LoginAttemptTest extends TestCase
 
         $this->assertSame(0, $result);
     }
+
+    public function testGetDataReturnsStoredValues(): void
+    {
+        $data = ['username' => 'testuser', 'ip_address' => '127.0.0.1'];
+        $this->loginAttempt->setRequest($data);
+
+        $result = $this->loginAttempt->getData();
+
+        $this->assertSame('testuser', $result['username']);
+        $this->assertSame('127.0.0.1', $result['ip_address']);
+    }
+
+    public function testRecordReturnsVoidWhenNoDatabase(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->loginAttempt->record('user', 'ip', true);
+    }
+
+    public function testCountFailedByUsernameReturnsZeroWhenNoDatabase(): void
+    {
+        $result = $this->loginAttempt->countFailedByUsername('user', 900);
+        $this->assertSame(0, $result);
+    }
 }

@@ -47,7 +47,26 @@ class AuthManagerTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('El archivo YAML no existe');
 
-        $this->manager->seed();
+        $this->manager->seed('non_existent.yml');
+    }
+
+    public function testSeedThrowsExceptionWhenYamlParseFails(): void
+    {
+        if (!function_exists('yaml_parse_file')) {
+            $this->markTestSkipped('yaml extension not installed');
+        }
+
+        $tempFile = tempnam(sys_get_temp_dir(), 'invalid_yaml');
+        file_put_contents($tempFile, "invalid: \t yaml: { content");
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('No se pudo parsear el archivo YAML o el formato es incorrecto.');
+
+        try {
+            $this->manager->seed($tempFile);
+        } finally {
+            unlink($tempFile);
+        }
     }
 
     public function testGetRoleModelReturnsRoleByDefault(): void

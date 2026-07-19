@@ -17,7 +17,7 @@ class Csrf
         if (empty($_SESSION['csrf_token']) || empty($token)) {
             return false;
         }
-        
+
         $isValid = hash_equals($_SESSION['csrf_token'], $token);
         if ($isValid) {
             unset($_SESSION['csrf_token']);
