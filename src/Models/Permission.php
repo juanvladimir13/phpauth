@@ -27,4 +27,9 @@ class Permission extends Model
         );
         return $rows[0] ?? null;
     }
+
+    public function create(string $name): int
+    {
+        return Postgres::insert($this->TABLE_NAME, ['name' => $name]);
+    }
 }
