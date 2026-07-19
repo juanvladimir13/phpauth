@@ -1,7 +1,7 @@
 {
     "name": "juanvladimir13/phpauth",
     "description": "PHP authentication & authorization system with RBAC, CSRF, rate limiting, and PostgreSQL",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "homepage": "https://juanvladimir13.web.app/",
     "authors": [
