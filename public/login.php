@@ -2,17 +2,14 @@
 
 require '../vendor/autoload.php';
 
-use App\Controllers\Auth;
-use App\Controllers\Csrf;
-use App\Controllers\RateLimiter;
+use App\AuthRbac;
 
-$rateLimiter = new RateLimiter();
-$auth = new Auth();
+$manager = AuthRbac::getInstance();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Protección CSRF
-    if (!Csrf::verifyToken($_POST['csrf_token'] ?? '')) {
+    if (!AuthRbac::csrfVerify($_POST['csrf_token'] ?? '')) {
         die("Token CSRF inválido. Posible ataque detectado.");
     }
 
@@ -22,15 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($username) || empty($password)) {
         $error = "Usuario y contraseña son obligatorios.";
-    } elseif ($rateLimiter->isLockedOut($ip)) {
+    } elseif ($manager->rateLimiter()->isLockedOut($ip)) {
         $error = "Demasiados intentos fallidos. Por favor, intenta más tarde.";
     } else {
-        if ($auth->login($username, $password)) {
-            $rateLimiter->recordAttempt($username, $ip, true);
+        if ($manager->auth()->login($username, $password)) {
+            $manager->rateLimiter()->recordAttempt($username, $ip, true);
             header('Location: dashboard.php');
             exit;
         } else {
-            $rateLimiter->recordAttempt($username, $ip, false);
+            $manager->rateLimiter()->recordAttempt($username, $ip, false);
             // Mensaje genérico, no revelamos si el usuario existe o no
             $error = "Credenciales incorrectas.";
         }
@@ -58,7 +55,7 @@ if (str_contains($headers['Accept'] ?? '', 'application/json') && $error) {
     <?php endif; ?>
     
     <form method="POST" action="login.php">
-        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(Csrf::generateToken()) ?>">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(AuthRbac::csrfToken()) ?>">
         <label>Usuario: <input type="text" name="username" required></label><br><br>
         <label>Contraseña: <input type="password" name="password" required></label><br><br>
         <button type="submit">Ingresar</button>

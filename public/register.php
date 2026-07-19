@@ -2,15 +2,14 @@
 
 require '../vendor/autoload.php';
 
-use App\Controllers\Auth;
-use App\Controllers\Csrf;
+use App\AuthRbac;
 
-$auth = new Auth();
+$manager = AuthRbac::getInstance();
 $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!Csrf::verifyToken($_POST['csrf_token'] ?? '')) {
+    if (!AuthRbac::csrfVerify($_POST['csrf_token'] ?? '')) {
         die("Token CSRF inválido.");
     }
 
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($password) < 8) {
         $error = "La contraseña debe tener al menos 8 caracteres.";
     } else {
-        if ($auth->register($username, $email, $password, $roleId)) {
+        if ($manager->auth()->register($username, $email, $password, $roleId)) {
                 $success = "Usuario registrado exitosamente. Ahora puedes iniciar sesión.";
             } else {
                 $error = "Ocurrió un error al registrar el usuario.";
@@ -50,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p><a href="login.php">Ir a Iniciar Sesión</a></p>
     <?php else: ?>
         <form method="POST" action="register.php">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(Csrf::generateToken()) ?>">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(AuthRbac::csrfToken()) ?>">
             <label>Usuario: <input type="text" name="username" required></label><br><br>
             <label>Email: <input type="email" name="email" required></label><br><br>
             <label>Contraseña: <input type="password" name="password" required></label><br><br>

@@ -1,17 +1,18 @@
 <?php
 
 require '../vendor/autoload.php';
-use App\Controllers\Guard;
+
+use App\AuthRbac;
 
 // Protegemos la página: Requiere estar logueado
-$guard = new Guard();
-$guard->requireLogin();
+$manager = AuthRbac::getInstance();
+$manager->guard()->requireLogin();
 
 // Puedes descomentar la siguiente línea para requerir un rol específico
-// $guard->requireRole('admin');
+// $manager->guard()->requireRole('admin');
 
 // Requerimos el permiso granular 'view_dashboard'
-$guard->requireCan('view_dashboard');
+$manager->guard()->requireCan('view_dashboard');
 
 // Si la petición es API (Accept: application/json), devolvemos JSON
 $headers = getallheaders();

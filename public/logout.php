@@ -2,10 +2,10 @@
 
 require '../vendor/autoload.php';
 
-use App\Controllers\Auth;
+use App\AuthRbac;
 
-$auth = new Auth();
-$auth->logout();
+$manager = AuthRbac::getInstance();
+$manager->auth()->logout();
 
 $headers = getallheaders();
 if (str_contains($headers['Accept'] ?? '', 'application/json')) {

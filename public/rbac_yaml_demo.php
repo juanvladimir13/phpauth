@@ -10,15 +10,15 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config/session.php';
 require __DIR__ . '/../config/database.php';
 
+use App\AuthRbac;
 use App\Models\User;
 use App\Models\Role;
-use App\Rbac\AuthManager;
 
 echo "=== RBAC YAML Demo: Roles y Permisos Granulares ===\n\n";
 
 try {
-    $seeder = new AuthManager();
-    $seeder->seed();
+    $manager = AuthRbac::getInstance();
+    $manager->rbac()->seed();
 
     echo "--- 5. Matriz de permisos por usuario ---\n\n";
 
