@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class Role extends Model
 {
-    protected string $TABLE_NAME = 'roles';
+    protected string $TABLE_NAME = 'public.roles';
 
     public function setRequest(array $request): void
     {
@@ -22,7 +22,7 @@ class Role extends Model
     public function findByName(string $name): ?array
     {
         $rows = Postgres::fetchAllParams(
-            "SELECT * FROM roles WHERE name = $1",
+            "SELECT * FROM public.roles WHERE name = $1",
             [$name]
         );
         return $rows[0] ?? null;

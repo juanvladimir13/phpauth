@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class User extends Model
 {
-    protected string $TABLE_NAME = 'users';
+    protected string $TABLE_NAME = 'public.users';
 
     public function setRequest(array $request): void
     {
@@ -23,8 +23,8 @@ class User extends Model
     {
         $rows = Postgres::fetchAllParams(
             "SELECT u.*, r.name as role_name
-             FROM users u
-             LEFT JOIN roles r ON u.role_id = r.id
+             FROM public.users u
+             LEFT JOIN public.roles r ON u.role_id = r.id
              WHERE u.username = $1",
             [$username]
         );
@@ -35,8 +35,8 @@ class User extends Model
     {
         $rows = Postgres::fetchAllParams(
             "SELECT u.*, r.name as role_name
-             FROM users u
-             LEFT JOIN roles r ON u.role_id = r.id
+             FROM public.users u
+             LEFT JOIN public.roles r ON u.role_id = r.id
              WHERE u.email = $1",
             [$email]
         );
@@ -47,9 +47,9 @@ class User extends Model
     {
         $rows = Postgres::fetchAllParams(
             "SELECT 1
-             FROM users u
-             JOIN role_permissions rp ON u.role_id = rp.role_id
-             JOIN permissions p ON rp.permission_id = p.id
+             FROM public.users u
+             JOIN public.role_permissions rp ON u.role_id = rp.role_id
+             JOIN public.permissions p ON rp.permission_id = p.id
              WHERE u.id = $1 AND p.name = $2",
             [(string)$userId, $permission]
         );

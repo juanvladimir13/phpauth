@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class LoginAttempt extends Model
 {
-    protected string $TABLE_NAME = 'login_attempts';
+    protected string $TABLE_NAME = 'public.login_attempts';
 
     public function setRequest(array $request): void
     {

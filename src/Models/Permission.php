@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class Permission extends Model
 {
-    protected string $TABLE_NAME = 'permissions';
+    protected string $TABLE_NAME = 'public.permissions';
 
     public function setRequest(array $request): void
     {
@@ -22,7 +22,7 @@ class Permission extends Model
     public function findByName(string $name): ?array
     {
         $rows = Postgres::fetchAllParams(
-            "SELECT * FROM permissions WHERE name = $1",
+            "SELECT * FROM public.permissions WHERE name = $1",
             [$name]
         );
         return $rows[0] ?? null;
