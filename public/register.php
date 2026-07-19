@@ -1,6 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
+require_once __DIR__ . '/../auth/session.php';
 
 use PhpAuth\AuthRbac;
 
@@ -22,7 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $roleId = 2; 
 
     // Sanitización y Validación
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $ip = $_SERVER['REMOTE_ADDR'];
+    if ($manager->rateLimiter()->isLockedOut($ip)) {
+        $error = "Demasiados intentos. Por favor, intenta más tarde.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "El formato de email no es válido.";
     } elseif (strlen($password) < 8) {
         $error = "La contraseña debe tener al menos 8 caracteres.";

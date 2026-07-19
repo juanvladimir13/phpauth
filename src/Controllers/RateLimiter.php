@@ -27,4 +27,10 @@ class RateLimiter
         $attempts = $this->loginAttempt->countFailedByIp($ip, $this->lockoutTime);
         return $attempts >= $this->maxAttempts;
     }
+
+    public function isUserLockedOut(string $username): bool
+    {
+        $attempts = $this->loginAttempt->countFailedByUsername($username, $this->lockoutTime);
+        return $attempts >= $this->maxAttempts;
+    }
 }

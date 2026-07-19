@@ -3,7 +3,7 @@
 Un sistema completo de control de acceso seguro para PHP vanilla (sin frameworks) con PostgreSQL.
 
 ## Funcionalidades
-- **Autenticación**: Registro, Login, Logout seguro.
+- **Autenticación**: Registro, Login, Logout y actualización de contraseñas de forma segura.
 - **Autorización (RBAC + Permisos)**: Middleware reusable para proteger rutas por rol o permisos granulares.
 - **Seguridad Integrada**:
   - `password_hash` con **ARGON2ID**.

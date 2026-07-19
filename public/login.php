@@ -1,6 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
+require_once __DIR__ . '/../auth/session.php';
 
 use PhpAuth\AuthRbac;
 
@@ -21,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Usuario y contraseña son obligatorios.";
     } elseif ($manager->rateLimiter()->isLockedOut($ip)) {
         $error = "Demasiados intentos fallidos. Por favor, intenta más tarde.";
+    } elseif ($manager->rateLimiter()->isUserLockedOut($username)) {
+        $error = "Demasiados intentos fallidos para este usuario. Por favor, intenta más tarde.";
     } else {
         if ($manager->auth()->login($username, $password)) {
             $manager->rateLimiter()->recordAttempt($username, $ip, true);
@@ -38,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $headers = getallheaders();
 if (str_contains($headers['Accept'] ?? '', 'application/json') && $error) {
     http_response_code(401);
+    header('Content-Type: application/json');
     echo json_encode(['error' => $error]);
     exit;
 }

@@ -9,14 +9,14 @@ use PhpAuth\Controllers\RateLimiter;
 use PhpAuth\Rbac\AuthManager;
 
 /**
- * AuthManager — Singleton que centraliza el acceso a todos los
+ * AuthRbac — Singleton que centraliza el acceso a todos los
  * componentes del sistema de autenticación y autorización.
  *
  * Uso:
- *   $manager = AuthManager::getInstance();
+ *   $manager = AuthRbac::getInstance();
  *   $manager->auth()->login($username, $password);
  *   $manager->guard()->requireLogin();
- *   AuthManager::csrf()::generateToken();
+ *   AuthRbac::csrfToken();
  *   $manager->rateLimiter()->isLockedOut($ip);
  *   $manager->rbac()->seed();
  */

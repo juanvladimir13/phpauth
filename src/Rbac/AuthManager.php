@@ -34,9 +34,8 @@ class AuthManager
         return $this->userModel;
     }
 
-    public function seed(): void
+    public function seed(string $yamlFilePath='./../auth/rbac.yml'): void
     {
-        $yamlFilePath = './../auth/rbac.yml';
         if (!file_exists($yamlFilePath)) {
             throw new \InvalidArgumentException("El archivo YAML no existe: {$yamlFilePath}");
         }
@@ -145,7 +144,7 @@ class AuthManager
                 continue;
             }
 
-            $hash = password_hash($cfg['password'], PASSWORD_ARGON2ID);
+            $hash = User::passwordToHash($cfg['password']);
             $userId = $this->userModel->createUser(
                 $cfg['username'],
                 $cfg['email'],

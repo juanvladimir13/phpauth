@@ -21,6 +21,7 @@ class Guard
                 echo json_encode(['error' => 'No autorizado']);
                 exit;
             }
+            $redirectUrl = $this->sanitizeRedirectUrl($redirectUrl, '/login');
             header("Location: {$redirectUrl}");
             exit;
         }
@@ -31,12 +32,13 @@ class Guard
         $this->requireLogin($redirectUrl);
 
         if (($_SESSION['role'] ?? '') !== $role) {
-            http_response_code(403);
             if ($this->isApiRequest()) {
-                echo json_encode(['error' => 'Acceso denegado. Se requiere rol: ' . $role]);
-            } else {
-                echo "Acceso Denegado: Requiere rol {$role}";
+                http_response_code(403);
+                echo json_encode(['error' => 'Acceso denegado. Se requiere el rol: ' . htmlspecialchars($role)]);
+                exit;
             }
+            $redirectUrl = $this->sanitizeRedirectUrl($redirectUrl, '/');
+            header('Location: ' . $redirectUrl);
             exit;
         }
     }
@@ -45,15 +47,24 @@ class Guard
     {
         $this->requireLogin($redirectUrl);
 
-        if (!$this->user->hasPermission((int)$_SESSION['user_id'], $permission)) {
-            http_response_code(403);
+        if (!$this->user->hasPermission((int)($_SESSION['user_id'] ?? 0), $permission)) {
             if ($this->isApiRequest()) {
+                http_response_code(403);
                 echo json_encode(['error' => 'Acceso denegado. Falta permiso']);
-            } else {
-                echo "Acceso Denegado: Falta el permiso {$permission}";
+                exit;
             }
+            $redirectUrl = $this->sanitizeRedirectUrl($redirectUrl, '/');
+            header('Location: ' . $redirectUrl);
             exit;
         }
+    }
+
+    private function sanitizeRedirectUrl(string $url, string $default): string
+    {
+        if (preg_match('#^/[a-zA-Z0-9._/-]*$#', $url)) {
+            return $url;
+        }
+        return $default;
     }
 
     private function isApiRequest(): bool

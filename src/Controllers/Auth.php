@@ -6,6 +6,8 @@ use PhpAuth\Models\User;
 
 class Auth
 {
+    private const UPDATABLE_FIELDS = ['username', 'email', 'celular', 'activo', 'editable'];
+
     private User $user;
 
     public function __construct()
@@ -56,24 +58,29 @@ class Auth
 
     public function updateUser(int $userId, array $data): bool
     {
-        $user = $this->user->find($userId);
-        if ($user === null) {
+        $data = array_intersect_key($data, array_flip(self::UPDATABLE_FIELDS));
+        if (empty($data)) {
             return false;
         }
-
-        $user->setRequest($data);
-        return $this->user->update($userId, $user->getData());
+        $user = $this->user->find($userId);
+        if (empty($user)) {
+            return false;
+        }
+        $this->user->updateUser($userId, $data);
+        return true;
     }
 
     public function updatePassword(int $userId, string $passwordOld, string $passwordNew): bool
     {
         $user = $this->user->find($userId);
-
-        if ($user === null || !User::passwordHashVerify($passwordOld, $user['password_hash'])) {
+        if (empty($user)) {
             return false;
         }
-
+        if (!User::passwordHashVerify($passwordOld, $user['password_hash'])) {
+            return false;
+        }
         $newHash = User::passwordToHash($passwordNew);
-        return $this->user->update($userId, ['password_hash' => $newHash]);
+        $this->user->updatePassword($userId, $newHash);
+        return true;
     }
 }

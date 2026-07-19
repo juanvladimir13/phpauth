@@ -6,7 +6,7 @@
 - psalm: `composer psalm` — level 8, PHP 7.4, scans `src` only
 - phpcs: `composer phpcs` (summary) / `composer phpcs-detail` (full) — PSR12, 4-space indent
 - php-cs-fixer: `composer phpcs-fixer` — PSR12 auto-fix on `src`
-- phpunit: `composer test` — runs 74 unit tests
+- phpunit: `composer test` — runs 76 unit tests
 
 ## Dev server
 
@@ -17,7 +17,7 @@
 - Namespace `PhpAuth\` maps to `src/`, `Tests\` maps to `tests/`
 - EditorConfig: 4-space indent, LF, 120-char line limit (2-space for JS/HTML)
 - `composer.lock` is gitignored (lock intentionally excluded)
-- Platform targets PHP 7.4 (`composer.json config.platform.php`)
+- Platform targets PHP = 8.4 (`composer.json config.platform.php`)
 
 ## Project structure
 
@@ -31,7 +31,7 @@
   - `Rbac/AuthManager.php` — YAML-based RBAC seeder (roles, permissions, users)
 - `auth/` — `session.php` (httponly, samesite=Lax, timeout, regeneration), `schema.sql`, `seed.sql`, `rbac.yml`
 - `public/` — 6 entry points: `login.php`, `register.php`, `logout.php`, `dashboard.php`, `rbac_demo.php`, `rbac_yaml_demo.php`
-- `tests/` — 74 unit tests (phpunit ^9.5):
+- `tests/` — 76 unit tests (phpunit ^9.5):
   - `AuthRbacTest.php` — singleton, lazy loading, delegation
   - `Controllers/AuthTest.php`, `CsrfTest.php`, `GuardTest.php`, `RateLimiterTest.php`
   - `Models/UserTest.php`, `RoleTest.php`, `PermissionTest.php`, `LoginAttemptTest.php`

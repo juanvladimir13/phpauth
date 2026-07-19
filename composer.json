@@ -51,9 +51,6 @@
         "phpcs": "vendor/bin/phpcs --colors --standard=PSR12 --severity=1 --tab-width=4 --report=summary src",
         "phpcs-detail": "vendor/bin/phpcs --colors --standard=PSR12 --severity=1 --tab-width=4 src",
         "phpcs-fixer": "vendor/bin/php-cs-fixer fix src --rules=@PSR12",
-        "test": "vendor/bin/phpunit",
-        "post-install-cmd": [
-            "php -r \"copy('vendor/juanvladimir13/phpauth/auth', 'auth');\""
-        ]
+        "test": "vendor/bin/phpunit"
     }
 }

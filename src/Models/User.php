@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class User extends Model
 {
-    protected string $TABLE_NAME = 'public.users';
+    protected string $TABLE_NAME = 'phpauth.users';
 
     public function setRequest(array $request): void
     {
@@ -23,8 +23,8 @@ class User extends Model
     {
         $rows = Postgres::fetchAllParams(
             "SELECT u.*, r.name as role_name
-             FROM public.users u
-             LEFT JOIN public.roles r ON u.role_id = r.id
+             FROM phpauth.users u
+             LEFT JOIN phpauth.roles r ON u.role_id = r.id
              WHERE u.username = $1",
             [$username]
         );
@@ -35,8 +35,8 @@ class User extends Model
     {
         $rows = Postgres::fetchAllParams(
             "SELECT u.*, r.name as role_name
-             FROM public.users u
-             LEFT JOIN public.roles r ON u.role_id = r.id
+             FROM phpauth.users u
+             LEFT JOIN phpauth.roles r ON u.role_id = r.id
              WHERE u.email = $1",
             [$email]
         );
@@ -47,9 +47,9 @@ class User extends Model
     {
         $rows = Postgres::fetchAllParams(
             "SELECT 1
-             FROM public.users u
-             JOIN public.role_permissions rp ON u.role_id = rp.role_id
-             JOIN public.permissions p ON rp.permission_id = p.id
+             FROM phpauth.users u
+             JOIN phpauth.role_permissions rp ON u.role_id = rp.role_id
+             JOIN phpauth.permissions p ON rp.permission_id = p.id
              WHERE u.id = $1 AND p.name = $2",
             [(string)$userId, $permission]
         );
@@ -71,11 +71,18 @@ class User extends Model
         return Postgres::update($this->TABLE_NAME, $data, ['id' => $userId]);
     }
 
-    public static function passwordHashVerify(string $password, string $passwordHash):bool {
+    public function updatePassword(int $userId, string $passwordHash): bool
+    {
+        return Postgres::update($this->TABLE_NAME, ['password_hash' => $passwordHash], ['id' => $userId]);
+    }
+
+    public static function passwordHashVerify(string $password, string $passwordHash): bool
+    {
         return password_verify($password, $passwordHash);
     }
 
-    public static function passwordToHash(string $password): string {
-        return password_hash($password,PASSWORD_ARGON2ID);
+    public static function passwordToHash(string $password): string
+    {
+        return password_hash($password, PASSWORD_ARGON2ID);
     }
 }

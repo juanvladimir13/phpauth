@@ -24,7 +24,7 @@ class LoginAttempt extends Model
         Postgres::insert($this->TABLE_NAME, [
             'username' => $username,
             'ip_address' => $ip,
-            'successful' => $success ? 't' : 'f'
+            'successful' => $success ? 'true' : 'false'
         ]);
     }
 
@@ -38,5 +38,18 @@ class LoginAttempt extends Model
             [$ip, (string)$lockoutSeconds]
         );
         return (int)($rows[0]['cnt'] ?? 0);
+    }
+
+    public function countFailedByUsername(string $username, int $lockoutSeconds): int
+    {
+        $rows = Postgres::fetchAllParams(
+            "SELECT COUNT(*) as total
+             FROM {$this->TABLE_NAME}
+             WHERE username = $1
+             AND successful = false
+             AND attempt_time > CURRENT_TIMESTAMP - ($2 || ' seconds')::interval",
+            [$username, (string)$lockoutSeconds]
+        );
+        return (int)($rows[0]['total'] ?? 0);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
+require_once __DIR__ . '/../auth/session.php';
 
 use PhpAuth\AuthRbac;
 
@@ -17,6 +18,7 @@ $manager->guard()->requireCan('view_dashboard');
 // Si la petición es API (Accept: application/json), devolvemos JSON
 $headers = getallheaders();
 if (str_contains($headers['Accept'] ?? '', 'application/json')) {
+    header('Content-Type: application/json');
     echo json_encode([
         'message' => 'Bienvenido al Dashboard',
         'user' => [
@@ -39,6 +41,9 @@ if (str_contains($headers['Accept'] ?? '', 'application/json')) {
     
     <p>Tienes acceso a esta página protegida porque posees el permiso: <code>view_dashboard</code>.</p>
     
-    <a href="logout.php">Cerrar Sesión</a>
+    <form method="POST" action="logout.php" style="display:inline;">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(AuthRbac::csrfToken()) ?>">
+        <button type="submit">Cerrar Sesión</button>
+    </form>
 </body>
 </html>

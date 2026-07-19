@@ -1,5 +1,5 @@
 <?php
-// config/session.php
+// auth/session.php
 
 $timeout = getenv('SESSION_TIMEOUT') ?: 3600; // 1 hora por defecto
 

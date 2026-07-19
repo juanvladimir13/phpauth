@@ -17,7 +17,11 @@ class Csrf
         if (empty($_SESSION['csrf_token']) || empty($token)) {
             return false;
         }
-        // hash_equals previene timing attacks
-        return hash_equals($_SESSION['csrf_token'], $token);
+        
+        $isValid = hash_equals($_SESSION['csrf_token'], $token);
+        if ($isValid) {
+            unset($_SESSION['csrf_token']);
+        }
+        return $isValid;
     }
 }
