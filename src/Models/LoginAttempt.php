@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class LoginAttempt extends Model
 {
-    protected string $TABLE_NAME = 'public.login_attempts';
+    protected string $TABLE_NAME = 'phpauth.login_attempts';
 
     public function setRequest(array $request): void
     {
@@ -31,7 +31,7 @@ class LoginAttempt extends Model
     public function countFailedByIp(string $ip, int $lockoutSeconds): int
     {
         $rows = Postgres::fetchAllParams(
-            "SELECT COUNT(*) as cnt FROM public.login_attempts
+            "SELECT COUNT(*) as cnt FROM {$this->TABLE_NAME}
              WHERE ip_address = $1
              AND successful = FALSE
              AND attempt_time > (CURRENT_TIMESTAMP - ($2 || ' seconds')::interval)",

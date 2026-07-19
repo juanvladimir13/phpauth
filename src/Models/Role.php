@@ -7,7 +7,7 @@ use PGDatabase\Postgres;
 
 class Role extends Model
 {
-    protected string $TABLE_NAME = 'public.roles';
+    protected string $TABLE_NAME = 'phpauth.roles';
 
     public function setRequest(array $request): void
     {
@@ -22,7 +22,7 @@ class Role extends Model
     public function findByName(string $name): ?array
     {
         $rows = Postgres::fetchAllParams(
-            "SELECT * FROM public.roles WHERE name = $1",
+            "SELECT * FROM {$this->TABLE_NAME} WHERE name = $1",
             [$name]
         );
         return $rows[0] ?? null;
@@ -35,7 +35,7 @@ class Role extends Model
 
     public function assignPermission(int $roleId, int $permissionId): void
     {
-        Postgres::insert('public.role_permissions', [
+        Postgres::insert('phpauth.role_permissions', [
             'role_id' => $roleId,
             'permission_id' => $permissionId,
         ]);
@@ -45,8 +45,8 @@ class Role extends Model
     {
         return Postgres::fetchAllParams(
             "SELECT p.*
-             FROM public.permissions p
-             JOIN public.role_permissions rp ON p.id = rp.permission_id
+             FROM phpauth.permissions p
+             JOIN phpauth.role_permissions rp ON p.id = rp.permission_id
              WHERE rp.role_id = $1
              ORDER BY p.name",
             [(string)$roleId]
